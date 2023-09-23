@@ -48,9 +48,6 @@ class FormContainers extends Component {
             </Grid>
           </Grid>
         </Box>
-        <br />
-        <br />
-
       </Fragment>
     )
   }
