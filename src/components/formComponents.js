@@ -18,44 +18,73 @@ const FormComponents = (props) => {
         <List>
           <ListItem>
             <ListItemButton
-              key={'button'}
-              onClick={e => props.addElement(e.key)}
+              onClick={() => {
+                props.addElement('button');
+              }}
               >
               <ListItemText primary="Button" />
             </ListItemButton>
           </ListItem>
           <ListItem>
-            <ListItemButton>
+          <ListItemButton
+              onClick={() => {
+                props.addElement('input');
+              }}
+              >
               <ListItemText primary="Input" />
             </ListItemButton>
           </ListItem>
           <ListItem>
-            <ListItemButton>
+          <ListItemButton
+              onClick={() => {
+                props.addElement('select');
+              }}
+              >
               <ListItemText primary="Drop Down" />
             </ListItemButton>
           </ListItem>
           <ListItem>
-            <ListItemButton>
+          <ListItemButton
+              onClick={() => {
+                props.addElement('rating');
+              }}
+              >
               <ListItemText primary="Rating" />
             </ListItemButton>
           </ListItem>
           <ListItem>
-            <ListItemButton>
+          <ListItemButton
+              onClick={() => {
+                props.addElement('textarea');
+              }}
+              >
               <ListItemText primary="Comment" />
             </ListItemButton>
           </ListItem>
           <ListItem>
-            <ListItemButton>
+          <ListItemButton
+              onClick={() => {
+                props.addElement('checkbox');
+              }}
+              >
               <ListItemText primary="Checkbox" />
             </ListItemButton>
           </ListItem>
           <ListItem>
-            <ListItemButton>
+          <ListItemButton
+              onClick={() => {
+                props.addElement('radio');
+              }}
+              >
               <ListItemText primary="Radio Button" />
             </ListItemButton>
           </ListItem>
           <ListItem>
-            <ListItemButton>
+          <ListItemButton
+              onClick={() => {
+                props.addElement('divider');
+              }}
+              >
               <ListItemText primary="Divider Line" />
             </ListItemButton>
           </ListItem>
