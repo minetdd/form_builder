@@ -1,12 +1,12 @@
 import React, { Component, Fragment } from 'react';
 import {
   Box,
-  Button,
   Grid,
   Paper,
   styled
 } from '@mui/material';
 import FormComponents from './formComponents';
+import FormBuilder from './formBuilder';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -17,8 +17,31 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 class FormContainers extends Component {
-  addElement = (item) => console.log(item);
+  constructor(props) {
+    super(props);
+    this.state = {
+      title: null,
+      description: null,
+      type: "object",
+      required: [],
+      properties: [],
+    }
+  }
+  
+  addElement = (item) => {
+    const { properties } = this.state;
+    properties.push({
+      type: item,
+      description: null,
+      name: null,
+    })
+  }
+
   render() {
+    const {
+      properties,
+    } = this.state;
+    
     return (
       <Fragment>
         <Box
@@ -44,7 +67,11 @@ class FormContainers extends Component {
               item
               xs={10}
               >
-              <Item>Form builder</Item>
+              <Item>
+                <FormBuilder
+                  properties={properties}
+                  />
+              </Item>
             </Grid>
           </Grid>
         </Box>
