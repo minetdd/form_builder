@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import {
   Box,
+  // Card,
   Grid,
   Paper,
   styled
@@ -29,19 +30,18 @@ class FormContainers extends Component {
   }
   
   addElement = (item) => {
-    const { properties } = this.state;
-    properties.push({
+    const newItem = {
       type: item,
       description: null,
       name: null,
+    };
+    this.setState({
+      properties: [...this.state.properties, newItem]
     })
   }
 
   render() {
-    const {
-      properties,
-    } = this.state;
-    
+    const { properties } = this.state;
     return (
       <Fragment>
         <Box
@@ -71,6 +71,18 @@ class FormContainers extends Component {
                 <FormBuilder
                   properties={properties}
                   />
+                {/* <Box
+                  component="span"
+                  sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
+                  >
+                  {
+                    properties.map(i => (
+                      <Card>
+                        {i.type}
+                      </Card>
+                    ))
+                  }
+                </Box> */}
               </Item>
             </Grid>
           </Grid>
