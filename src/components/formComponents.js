@@ -79,12 +79,21 @@ const FormComponents = (props) => {
             </ListItemButton>
           </ListItem>
           <ListItem>
-          <ListItemButton
+            <ListItemButton
               onClick={() => {
                 props.addElement('divider');
               }}
               >
               <ListItemText primary="Divider Line" />
+            </ListItemButton>
+          </ListItem>
+          <ListItem>
+            <ListItemButton
+              onClick={() => {
+                props.addElement('dateField');
+              }}
+              >
+              <ListItemText primary="Date Field" />
             </ListItemButton>
           </ListItem>
         </List>
