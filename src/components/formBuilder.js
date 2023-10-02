@@ -42,6 +42,8 @@ const FormBuilder = (props) => {
   const [dateFieldLabel, setDateFieldLabel] = useState("Date Field");
   const [open, setOpen] = useState(false);
   const [fieldType, setFieldType] = useState('0');
+  const [fieldLabel, setFieldLabel] = useState('');
+  const [fieldDefault, setFieldDefault] = useState('');
   
   const {
     properties,
@@ -61,6 +63,24 @@ const FormBuilder = (props) => {
 
   const handleFieldTypeChange = (e) => {
     setFieldType(e.target.value);
+  }
+
+  useEffect(() => console.log(fieldType), [fieldType]);
+
+  const handleFieldLabel = (e) => {
+    setFieldLabel(e.target.value);
+  }
+
+  useEffect(() => console.log(fieldLabel), [fieldLabel]);
+
+  const handleFieldDefault = (e) => {
+    setFieldDefault(e.target.value);
+  }
+
+  useEffect(() => console.log(fieldDefault), [fieldDefault]);
+
+  const handleFieldSave = (e) => {
+    console.log(e)
   }
 
   return (
@@ -170,6 +190,8 @@ const FormBuilder = (props) => {
                 label="Field Label"
                 fullWidth
                 variant="outlined"
+                value={fieldLabel}
+                onChange={handleFieldLabel}
                 />
               <Select
                 fullWidth
@@ -193,11 +215,14 @@ const FormBuilder = (props) => {
                 label="Default Value"
                 fullWidth
                 variant="outlined"
+                value={fieldDefault}
+                onChange={handleFieldDefault}
                 />
             </DialogContent>
             <DialogActions>
               <Button
-                onClick={()=>console.log('Save field values')}
+                onClick={handleFieldSave}
+                // onClick={()=>console.log('Save field values')}
                 >
                 SAVE
               </Button>
