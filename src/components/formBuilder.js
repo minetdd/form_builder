@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState, useReducer } from 'react';
 import {
   Box,
   Button,
@@ -20,10 +20,12 @@ import {
   Select,
   TextField,
 } from '@mui/material';
+import { camelCase } from 'lodash';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateField } from '@mui/x-date-pickers/DateField';
+// import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 const FormBuilder = (props) => {
   const intialFormBuild = {
@@ -34,6 +36,7 @@ const FormBuilder = (props) => {
     properties: {},
   };
 
+  // const [state, dispatch] = useReducer(reducer, intialFormBuild);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [buttonTitle, setButtonTitle] = useState("Button Title");
@@ -44,6 +47,7 @@ const FormBuilder = (props) => {
   const [fieldType, setFieldType] = useState('0');
   const [fieldLabel, setFieldLabel] = useState('');
   const [fieldDefault, setFieldDefault] = useState('');
+  // const [save, dispatch] = useReducer(reducer, intialFormBuild.properties);
   
   const {
     properties,
@@ -68,6 +72,8 @@ const FormBuilder = (props) => {
   useEffect(() => console.log(fieldType), [fieldType]);
 
   const handleFieldLabel = (e) => {
+    // create camelCase for property name
+    let label = camelCase(e.target.value);
     setFieldLabel(e.target.value);
   }
 
@@ -80,7 +86,21 @@ const FormBuilder = (props) => {
   useEffect(() => console.log(fieldDefault), [fieldDefault]);
 
   const handleFieldSave = (e) => {
+    updateBuildForm(1,2);
     console.log(e)
+  }
+
+  const updateBuildForm = (state, action) => {
+    console.log('updateBuildForm', state, action);
+    switch (action.type) {
+      case 'save':
+        return {
+          type: state,
+          title: state,
+          default: state
+        }
+        
+    }
   }
 
   return (
