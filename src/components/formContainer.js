@@ -30,14 +30,16 @@ class FormContainers extends Component {
   }
   
   addElement = (item) => {
+    console.log('@T', item);
     const newItem = {
       type: item,
       description: null,
       name: null,
     };
     this.setState({
+      ...this.state.properties,
       properties: [...this.state.properties, newItem]
-    })
+    }, () => console.log(this.state.properties))
   }
 
   render() {
@@ -71,18 +73,6 @@ class FormContainers extends Component {
                 <FormBuilder
                   properties={properties}
                   />
-                {/* <Box
-                  component="span"
-                  sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
-                  >
-                  {
-                    properties.map(i => (
-                      <Card>
-                        {i.type}
-                      </Card>
-                    ))
-                  }
-                </Box> */}
               </Item>
             </Grid>
           </Grid>

@@ -25,7 +25,14 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateField } from '@mui/x-date-pickers/DateField';
-// import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+} from "react-beautiful-dnd";
+// import FormBuilderCard from './formBuilderCard';
+
+
 
 const FormBuilder = (props) => {
   const intialFormBuild = {
@@ -74,6 +81,7 @@ const FormBuilder = (props) => {
   const handleFieldLabel = (e) => {
     // create camelCase for property name
     let label = camelCase(e.target.value);
+    
     setFieldLabel(e.target.value);
   }
 
@@ -85,9 +93,13 @@ const FormBuilder = (props) => {
 
   useEffect(() => console.log(fieldDefault), [fieldDefault]);
 
+  const handleOnDragEnd = result => {
+    console.log('handleOnDragEnd');
+  }
+
   const handleFieldSave = (e) => {
-    updateBuildForm(1,2);
-    console.log(e)
+    // updateBuildForm(1,2);
+    console.log(intialFormBuild)
   }
 
   const updateBuildForm = (state, action) => {
@@ -135,70 +147,93 @@ const FormBuilder = (props) => {
             />
         </Grid>
       </Grid>
-      <Box
-        component="span"
-        sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)', width: '100%' }}
+      <DragDropContext
+        onDragEnd={handleOnDragEnd}
         >
-        {
-          properties.map(i => (
-            <Card
-              sx={{
-                width: '100%',
-                padding: '20px',
-              }}
+        <Droppable
+          droppableId="componentsBlock"
+          >
+          {(provided, snapshot) => (
+            <Box
+              component="span"
+              sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)', width: '100%' }}
+              {...provided.droppableProps}
+              ref={provided.innerRef}
               >
-              <CardContent>
                 {
-                  (() => {
-                    switch(i.type) {
-                      case 'button':
-                        return <Button fullWidth variant={buttonVariant}>{buttonTitle}</Button>;
-                      case 'checkbox':
-                        return <Checkbox />;
-                      case 'input':
-                          return <TextField fullWidth label={textFieldTitle} />;
-                      case 'select':
-                          return <Select />;
-                      case 'rating':
-                          return <Rating />;
-                      case 'radio':
-                          return <Radio />;
-                      case 'divider':
-                          return <Divider variant="fullWidth" />;
-                      case 'dateField':
-                          // return <DatePicker label={dateFieldLabel} />;
-                          return (
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                              <DemoContainer components={['DateField']}>
-                                <DateField label={dateFieldLabel} />
-                              </DemoContainer>
-                            </LocalizationProvider>
-                          )
-                      default:
-                        return;
-                    }
-                  })()
+                  properties.map((i, index) => (
+                    <Draggable
+                      draggableId={`${i.type}`}
+                      index={index}
+                      >
+                      {provided => (
+                        <Card
+                          sx={{
+                            width: '100%',
+                            padding: '20px',
+                          }}
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          >
+                          <CardContent>
+                            {
+                              (() => {
+                                switch(i.type) {
+                                  case 'button':
+                                    return <Button fullWidth variant={buttonVariant}>{buttonTitle}</Button>;
+                                  case 'checkbox':
+                                    return <Checkbox />;
+                                  case 'input':
+                                      return <TextField fullWidth label={textFieldTitle} />;
+                                  case 'select':
+                                      return <Select />;
+                                  case 'rating':
+                                      return <Rating />;
+                                  case 'radio':
+                                      return <Radio />;
+                                  case 'divider':
+                                      return <Divider variant="fullWidth" />;
+                                  case 'dateField':
+                                      // return <DatePicker label={dateFieldLabel} />;
+                                      return (
+                                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                          <DemoContainer components={['DateField']}>
+                                            <DateField label={dateFieldLabel} />
+                                          </DemoContainer>
+                                        </LocalizationProvider>
+                                      )
+                                  default:
+                                    return;
+                                }
+                              })()
+                            }
+                          </CardContent>
+                          <CardActions>
+                            <Button
+                              value="button"
+                              onClick={handleEditComponent}
+                              >
+                              EDIT {i.type} now
+                            </Button>
+                          </CardActions>
+                        </Card>
+                      )}
+                    </Draggable>
+                  ))
                 }
-              </CardContent>
-              <CardActions>
-                <Button
-                  value="button"
-                  onClick={handleEditComponent}
-                  >
-                  EDIT {i.type}
-                </Button>
-              </CardActions>
-            </Card>
-          ))
-        }
-      </Box>
+              {provided.placeholder}
+            </Box>
+          )}
+        </Droppable>
+      </DragDropContext>
       {
         open && (
           <Dialog
             open={open}
             onClose={handleEditComponent}
             >
-            <DialogTitle>Subscribe</DialogTitle>
+            <DialogTitle>Field Data</DialogTitle>
             <DialogContent>
               <DialogContentText>
                 To generate a form, you must complete the fields below
