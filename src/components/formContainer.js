@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component, Fragment, useState } from 'react';
 import {
   Box,
   // Card,
@@ -30,7 +30,6 @@ class FormContainers extends Component {
   }
   
   addElement = (item) => {
-    console.log('@T', item);
     const newItem = {
       type: item,
       description: null,
@@ -39,7 +38,19 @@ class FormContainers extends Component {
     this.setState({
       ...this.state.properties,
       properties: [...this.state.properties, newItem]
-    }, () => console.log(this.state.properties))
+    })
+  }
+
+  updateProperties = (item) => {
+    const items = Array.from(this.state.properties);
+    const [reordered] = items.splice(item.source.index, 1);
+
+    items.splice(item.destination.index, 0, reordered);
+
+    this.setState({
+      ...this.state.properties,
+      properties: items,
+    });
   }
 
   render() {
@@ -72,6 +83,7 @@ class FormContainers extends Component {
               <Item>
                 <FormBuilder
                   properties={properties}
+                  updateProperties={this.updateProperties}
                   />
               </Item>
             </Grid>

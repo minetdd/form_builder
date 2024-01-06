@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useReducer } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import {
   Box,
   Button,
@@ -13,7 +13,7 @@ import {
   DialogTitle,
   Divider,
   Grid,
-  Menu,
+  // Menu,
   MenuItem,
   Radio,
   Rating,
@@ -54,10 +54,12 @@ const FormBuilder = (props) => {
   const [fieldType, setFieldType] = useState('0');
   const [fieldLabel, setFieldLabel] = useState('');
   const [fieldDefault, setFieldDefault] = useState('');
+  const [temp, setTemp] = useState('');
   // const [save, dispatch] = useReducer(reducer, intialFormBuild.properties);
   
   const {
     properties,
+    updateProperties,
   } = props;
 
   const titleHandler = (e) => {
@@ -76,7 +78,7 @@ const FormBuilder = (props) => {
     setFieldType(e.target.value);
   }
 
-  useEffect(() => console.log(fieldType), [fieldType]);
+  // useEffect(() => console.log(fieldType), [fieldType]);
 
   const handleFieldLabel = (e) => {
     // create camelCase for property name
@@ -85,16 +87,19 @@ const FormBuilder = (props) => {
     setFieldLabel(e.target.value);
   }
 
-  useEffect(() => console.log(fieldLabel), [fieldLabel]);
+  // useEffect(() => console.log(fieldLabel), [fieldLabel]);
 
   const handleFieldDefault = (e) => {
     setFieldDefault(e.target.value);
   }
 
-  useEffect(() => console.log(fieldDefault), [fieldDefault]);
+  // useEffect(() => console.log(fieldDefault), [fieldDefault]);
 
   const handleOnDragEnd = result => {
-    console.log('handleOnDragEnd');
+    const { destination, source, draggableId, type } = result;
+
+    if (!result.destination) return;
+    props.updateProperties(result);
   }
 
   const handleFieldSave = (e) => {
@@ -103,7 +108,7 @@ const FormBuilder = (props) => {
   }
 
   const updateBuildForm = (state, action) => {
-    console.log('updateBuildForm', state, action);
+    // console.log('updateBuildForm', state, action);
     switch (action.type) {
       case 'save':
         return {
@@ -151,7 +156,7 @@ const FormBuilder = (props) => {
         onDragEnd={handleOnDragEnd}
         >
         <Droppable
-          droppableId="componentsBlock"
+          droppableId="cardBox"
           >
           {(provided, snapshot) => (
             <Box
@@ -165,6 +170,7 @@ const FormBuilder = (props) => {
                     <Draggable
                       draggableId={`${i.type}`}
                       index={index}
+                      key={`${i.type}`}
                       >
                       {provided => (
                         <Card
