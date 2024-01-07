@@ -158,7 +158,7 @@ const FormBuilder = (props) => {
         <Droppable
           droppableId="cardBox"
           >
-          {(provided, snapshot) => (
+          {(provided) => (
             <Box
               component="span"
               sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)', width: '100%' }}
@@ -172,13 +172,19 @@ const FormBuilder = (props) => {
                       index={index}
                       key={`${i.type}`}
                       >
-                      {provided => (
+                      {(provided, snapshot) => {
+                        if (snapshot.isDragging){
+                          provided.draggableProps.style.left = provided.draggableProps.style.offsetLeft;
+                          provided.draggableProps.style.top = provided.draggableProps.style.offsetTop;
+                        }
+                        return (
                         <Card
                           sx={{
                             width: '100%',
                             padding: '20px',
                           }}
                           ref={provided.innerRef}
+                          isDragging={snapshot.isDragging}
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
                           >
@@ -224,7 +230,7 @@ const FormBuilder = (props) => {
                             </Button>
                           </CardActions>
                         </Card>
-                      )}
+                      )}}
                     </Draggable>
                   ))
                 }
